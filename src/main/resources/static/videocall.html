@@ -1,5 +1,8 @@
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Chat</title>
     <style>
         #root {
             width: 98.1vw;
@@ -9,16 +12,44 @@
 </head>
 <body>
 <div id="root"></div>
-</body>
 <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
 <script>
     window.onload = function () {
+        const ws = new WebSocket('ws://localhost:8766');  // Python 서버의 WebSocket 포트로 연결
+
+        ws.onmessage = function(event) {
+            const message = event.data;
+            console.log("Received message:", message);
+
+            // ZEGO Cloud UI Kit을 사용하여 채팅방에 메시지 추가
+            zp.sendBroadcastMessage(message, roomID, function(errorCode, messageID) {
+                if (errorCode === 0) {
+                    console.log("Message sent successfully:", messageID);
+                } else {
+                    console.error("Failed to send message:", errorCode);
+                }
+            });
+        };
+
+        ws.onopen = function() {
+            console.log("WebSocket connection established");
+        };
+
+        ws.onclose = function() {
+            console.log("WebSocket connection closed");
+        };
+
+        ws.onerror = function(error) {
+            console.error("WebSocket error:", error);
+        };
+
         function getUrlParams(url) {
             let urlStr = url.split('?')[1];
             const urlSearchParams = new URLSearchParams(urlStr);
             const result = Object.fromEntries(urlSearchParams.entries());
             return result;
         }
+
         const roomID = getUrlParams(window.location.href)['roomID'] || (Math.floor(Math.random() * 10000) + "");
         const userID = Math.floor(Math.random() * 10000) + "";
         const userName = getUrlParams(window.location.href)['username'] || "username" + userID;
@@ -48,34 +79,7 @@
             layout: "Grid",
             showLayoutButton: true,
         });
-
-        const ws = new WebSocket('ws://localhost:8766');
-
-        ws.onmessage = function(event) {
-            const message = event.data;
-            console.log("Received message:", message);
-
-            // Sending message to the chat room
-            zp.sendBroadcastMessage(message, roomID, function(errorCode, messageID) {
-                if (errorCode === 0) {
-                    console.log("Message sent successfully:", messageID);
-                } else {
-                    console.error("Failed to send message:", errorCode);
-                }
-            });
-        };
-
-        ws.onopen = function() {
-            console.log("WebSocket connection established");
-        };
-
-        ws.onclose = function() {
-            console.log("WebSocket connection closed");
-        };
-
-        ws.onerror = function(error) {
-            console.error("WebSocket error:", error);
-        };
     };
 </script>
+</body>
 </html>
