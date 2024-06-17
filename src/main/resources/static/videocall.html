@@ -1,0 +1,81 @@
+<html>
+<head>
+    <style>
+        #root {
+            width: 98.1vw;
+            height: 98.09vh;
+        }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+<script>
+    window.onload = function () {
+        function getUrlParams(url) {
+            let urlStr = url.split('?')[1];
+            const urlSearchParams = new URLSearchParams(urlStr);
+            const result = Object.fromEntries(urlSearchParams.entries());
+            return result;
+        }
+        const roomID = getUrlParams(window.location.href)['roomID'] || (Math.floor(Math.random() * 10000) + "");
+        const userID = Math.floor(Math.random() * 10000) + "";
+        const userName = getUrlParams(window.location.href)['username'] || "username" + userID;
+        const appID = 891064744;
+        const serverSecret = "04726e53896d9b4560c7f5c33132e42b";
+        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
+
+        const zp = ZegoUIKitPrebuilt.create(kitToken);
+        zp.joinRoom({
+            container: document.querySelector("#root"),
+            sharedLinks: [{
+                name: 'Personal link',
+                url: window.location.protocol + '//' + window.location.host + window.location.pathname + '?roomID=' + roomID,
+            }],
+            scenario: {
+                mode: ZegoUIKitPrebuilt.VideoConference,
+            },
+            turnOnMicrophoneWhenJoining: true,
+            turnOnCameraWhenJoining: true,
+            showMyCameraToggleButton: true,
+            showMyMicrophoneToggleButton: true,
+            showAudioVideoSettingsButton: false,
+            showScreenSharingButton: false,
+            showTextChat: true,
+            showUserList: false,
+            maxUsers: 30,
+            layout: "Grid",
+            showLayoutButton: true,
+        });
+
+        const ws = new WebSocket('ws://localhost:8766');
+
+        ws.onmessage = function(event) {
+            const message = event.data;
+            console.log("Received message:", message);
+
+            // Sending message to the chat room
+            zp.sendBroadcastMessage(message, roomID, function(errorCode, messageID) {
+                if (errorCode === 0) {
+                    console.log("Message sent successfully:", messageID);
+                } else {
+                    console.error("Failed to send message:", errorCode);
+                }
+            });
+        };
+
+        ws.onopen = function() {
+            console.log("WebSocket connection established");
+        };
+
+        ws.onclose = function() {
+            console.log("WebSocket connection closed");
+        };
+
+        ws.onerror = function(error) {
+            console.error("WebSocket error:", error);
+        };
+    };
+</script>
+</html>
