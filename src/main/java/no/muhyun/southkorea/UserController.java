@@ -41,10 +41,10 @@ public class UserController {
         service.logout(email.getEmail());
     }
 
-    @GetMapping
-    public List<User> findAll() {
-        return service.findAll();
-    }
+//    @GetMapping
+//    public List<User> findAll() {
+//        return service.findAll();
+//    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handle(Exception ex) {

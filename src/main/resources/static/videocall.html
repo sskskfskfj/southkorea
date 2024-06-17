@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voice Chat</title>
+    <link rel="shortcut icon" href="#">
     <style>
         #root {
             width: 98.1vw;
@@ -12,37 +14,12 @@
 </head>
 <body>
 <div id="root"></div>
+<div id="chat-messages"></div>
+<input type="text" id="message-input" placeholder="Type your message...">
+<button onclick="sendMessage()">Send</button>
 <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
 <script>
     window.onload = function () {
-        const ws = new WebSocket('ws://localhost:8766');  // Python 서버의 WebSocket 포트로 연결
-
-        ws.onmessage = function(event) {
-            const message = event.data;
-            console.log("Received message:", message);
-
-            // ZEGO Cloud UI Kit을 사용하여 채팅방에 메시지 추가
-            zp.sendBroadcastMessage(message, roomID, function(errorCode, messageID) {
-                if (errorCode === 0) {
-                    console.log("Message sent successfully:", messageID);
-                } else {
-                    console.error("Failed to send message:", errorCode);
-                }
-            });
-        };
-
-        ws.onopen = function() {
-            console.log("WebSocket connection established");
-        };
-
-        ws.onclose = function() {
-            console.log("WebSocket connection closed");
-        };
-
-        ws.onerror = function(error) {
-            console.error("WebSocket error:", error);
-        };
-
         function getUrlParams(url) {
             let urlStr = url.split('?')[1];
             const urlSearchParams = new URLSearchParams(urlStr);
@@ -58,11 +35,12 @@
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 
         const zp = ZegoUIKitPrebuilt.create(kitToken);
+
         zp.joinRoom({
             container: document.querySelector("#root"),
             sharedLinks: [{
-                name: 'Personal link',
-                url: window.location.protocol + '//' + window.location.host + window.location.pathname + '?roomID=' + roomID,
+                name: 'RoomID',
+                url: roomID,
             }],
             scenario: {
                 mode: ZegoUIKitPrebuilt.VideoConference,
@@ -79,6 +57,49 @@
             layout: "Grid",
             showLayoutButton: true,
         });
+
+        const ws = new WebSocket('ws://localhost:8766');
+
+        ws.onopen = function() {
+            console.log("WebSocket connection established");
+        };
+
+        ws.onmessage = function(event) {
+            const message = event.data;
+            console.log("Received message:", message);
+            displayMessage(message); // Display received message in UI
+        };
+
+        ws.onclose = function() {
+            console.log("WebSocket connection closed");
+        };
+
+        ws.onerror = function(error) {
+            console.error("WebSocket error:", error);
+        };
+
+        window.onbeforeunload = function() {
+            ws.close();
+        };
+
+        // Function to send message via WebSocket
+        function sendMessage() {
+            const messageInput = document.getElementById('message-input');
+            const message = messageInput.value.trim();
+            if (message !== '') {
+                ws.send(message);
+                messageInput.value = '';
+                displayMessage(`You: ${message}`); // Display sent message in UI
+            }
+        }
+
+        // Function to display messages in the chat
+        function displayMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            chatMessages.appendChild(messageElement);
+        }
     };
 </script>
 </body>
