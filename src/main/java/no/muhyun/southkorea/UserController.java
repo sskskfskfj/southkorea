@@ -18,7 +18,11 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://ec2-43-201-116-173.ap-northeast-2.compute.amazonaws.com:8080/register.html",
+                        "http://ec2-43-201-116-173.ap-northeast-2.compute.amazonaws.com:8080/login.html",
+                        "http://ec2-43-201-116-173.ap-northeast-2.compute.amazonaws.com:8080/index.html",
+                        "http://ec2-43-201-116-173.ap-northeast-2.compute.amazonaws.com:8080/videocall.html"
+                        })
 @Slf4j
 public class UserController {
 
