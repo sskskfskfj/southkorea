@@ -1,8 +1,14 @@
+/* css/styles.css */
+
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #f1f1f1; /* Change the background color of the page */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
 }
 
 .container {
@@ -12,70 +18,101 @@ body {
     height: 100vh;
 }
 
-.login-form,
-.social-icons {
+.login-form {
     background-color: #ffffff;
     padding: 40px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px; /* 수정 가능: 로그인 폼의 너비 */
 }
 
-.social-icons {
-    margin-right: 20px;
-    height: fit-content;
-}
-
-.social-icons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.login-form input[type="text"],
-.login-form input[type="password"],
 .login-form input[type="email"],
+.login-form input[type="password"],
+.login-form input[type="text"],
 .login-form button {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box; /* Include padding and border in the width */
+    box-sizing: border-box;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.login-form input[type="email"]:not(:placeholder-shown) {
+    color: #777; /* 입력된 경우의 글자색 */
+}
+
+.login-form input[type="email"]:hover,
+.login-form input[type="password"]:hover,
+.login-form input[type="text"]:hover,
+.login-form button:hover {
+    border-color: #0067A3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .login-form button {
+    border: none;
     background-color: #4CAF50;
     color: #fff;
-    border: none;
     cursor: pointer;
 }
 
-.login-form p {
-    margin-top: 10px;
+.login-form button:hover {
+    background-color: #0067A3;
+    transform: translateY(-2px);
 }
 
-.login-form a {
-    color: #4CAF50;
-    text-decoration: none;
+.login-form button:active {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
-.social-icons h2 {
+.register-header {
+    text-align: center;
     margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 20px;
+    font-size: 24px;
 }
 
-.social-icons a {
+.login-header {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 20px;
+    font-size: 22px;
+}
+
+.login-header h1 {
     display: inline-block;
-    margin: 5px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.login-form p.register-link {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.register-link .register-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #4CAF50;
+    border-radius: 5px;
     background-color: #4CAF50;
     color: #fff;
-    text-align: center;
-    line-height: 40px;
     text-decoration: none;
 }
 
-.user-email {
-    font-size: 15px !important;
+.register-link .register-button:hover {
+    background-color: #0067A3;
+    transform: translateY(-2px);
+}
+
+.register-link .register-button:active {
+    transform: translateY(0);
+    box-shadow: none;
 }

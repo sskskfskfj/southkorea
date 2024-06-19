@@ -1,4 +1,4 @@
-package no.muhyun.southkorea.controller;
+package no.com.southkorea.controller;
 
 
 import org.springframework.stereotype.Controller;

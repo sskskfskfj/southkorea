@@ -14,11 +14,36 @@
 </head>
 <body>
 <div id="root"></div>
-<input type="text" id="message-input" placeholder="Type your message...">
-<button onclick="sendMessage()">Send</button>
-<button onclick="startVoiceRecognition()">Start Voice Recognition</button>
+<!--<input type="text" id="message-input" placeholder="Type your message...">-->
+<!--<button onclick="sendMessage()">Send</button>-->
+<!--<button onclick="startVoiceRecognition()">Start Voice Recognition</button>-->
 <script src="js/load.js" type="module"></script>
-<script src="https://unpkg.com/zego-zim-web@2.5.0/index.js"></script>
+<!--<script src="https://unpkg.com/zego-zim-web@2.5.0/index.js"></script>-->
+<script src="
+https://cdn.jsdelivr.net/npm/zego-zim-web@2.16.0/index.min.js
+"></script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAo_MAax_i5pHOVjMoIi9RTzFB_YdBvxAU",
+      authDomain: "ssss-454df.firebaseapp.com",
+      databaseURL: "https://ssss-454df-default-rtdb.firebaseio.com",
+      projectId: "ssss-454df",
+      storageBucket: "ssss-454df.appspot.com",
+      messagingSenderId: "713807016529",
+      appId: "1:713807016529:web:3a521a35cfed6fffd6fe70"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+</script>
 <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
 </body>
 </html>
+
+

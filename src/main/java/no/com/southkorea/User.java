@@ -1,4 +1,4 @@
-package no.muhyun.southkorea;
+package no.com.southkorea;
 
 import jakarta.persistence.Entity;
 import lombok.Builder;

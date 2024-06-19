@@ -1,4 +1,4 @@
-package no.muhyun.southkorea.service;
+package no.com.southkorea.service;
 
 import com.google.cloud.speech.v1.*;
 import com.google.protobuf.ByteString;

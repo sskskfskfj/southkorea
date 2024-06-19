@@ -4,32 +4,51 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Connected Users</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/index.css">
-  <link rel="shortcut icon" href="#">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <div class="container">
-  <div class="image-container">
-    <img src="https://images.idgesg.net/images/article/2020/04/zoom_video_conferencing_online_meeting_remote_workers_one_user_connected_via_laptop_with_a_grid_of_twelve_participants_on_screen_2400x1600-100837446-large.jpg?auto=webp&quality=85,70" alt="Image">
+  <div class="image-container" id="imageContainer">
+    <img src="img/hello.png" alt="Meeting">
+    <div class="create-meeting-text">Create a New Meeting</div>
   </div>
 
   <div class="main">
-    <div class="new-meeting">
-      <button id="newMeetingBtn">Create a New Meeting</button>
+    <div class="username" id="user-name"></div> <!-- 이 부분에 사용자 이름을 표시합니다. -->
+    <div class="action-box">
+      <button id="newMeetingBtn" class="btn btn-success">Create a New Meeting</button>
       <div class="join-meeting">
-        <input type="text" placeholder="Meeting ID" id="meetingName">
-        <button id="joinMeetingBtn">Join</button>
+        <input type="text" id="meetingName" class="form-control" placeholder="Enter Meeting ID">
+        <button id="joinMeetingBtn" class="btn btn-success">Join</button>
       </div>
+      <button id="logoutBtn" class="btn btn-success">Logout</button>
     </div>
-    <div class="connected-users">
-      <button id="logoutBtn">Logout</button>
-      <h2>Connected Users</h2>
-      <ul id="userList"></ul>
-    </div>
+  <div>
+    <div class="connectedusers" id="connectedUsersHeader">Connected Users</div>
+    <ul class="userList" id="userList"></ul>
+  </div>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0sG1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <script src="js/index.js"></script>
+<script>
+  // 이미지를 클릭할 때 'Create a New Meeting' 버튼 클릭
+  document.getElementById('imageContainer').addEventListener('click', function() {
+    document.getElementById('newMeetingBtn').click();
+  });
+
+  // 페이지가 로드될 때 사용자 이름을 표시
+  window.addEventListener('load', function() {
+    const connectedUser = JSON.parse(localStorage.getItem('connectedUser'));
+    if (connectedUser && connectedUser.username) {
+      document.getElementById('user-name').textContent = `Welcome, ${connectedUser.username}!`;
+    }
+  });
+</script>
+
 </body>
 </html>

@@ -27,7 +27,7 @@ function handleRegistration(event) {
         return response;
     }).then(() => {
         localStorage.setItem("connectedUser", JSON.stringify(user));
-        window.location.href = "index.html";
+        window.location.href = "login.html";
     }).catch(error => {
         console.error('POST request error:', error);
     });

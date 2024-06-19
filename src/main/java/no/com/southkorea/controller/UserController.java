@@ -1,9 +1,9 @@
-package no.muhyun.southkorea.controller;
+package no.com.southkorea.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import no.muhyun.southkorea.User;
-import no.muhyun.southkorea.service.UserService;
+import no.com.southkorea.User;
+import no.com.southkorea.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
