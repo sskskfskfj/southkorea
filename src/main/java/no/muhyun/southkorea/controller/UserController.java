@@ -1,17 +1,16 @@
-package no.muhyun.southkorea;
+package no.muhyun.southkorea.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import no.muhyun.southkorea.User;
+import no.muhyun.southkorea.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -29,11 +28,10 @@ public class UserController {
     private final UserService service;
 
     @PostMapping
-    public void register(
-            @RequestBody User user
-    ) {
+    public void register(@RequestBody User user) {
         service.register(user);
     }
+
 
     @PostMapping("/login")
     public User login(@RequestBody User user) {
@@ -45,10 +43,8 @@ public class UserController {
         service.logout(email.getEmail());
     }
 
-//    @GetMapping
-//    public List<User> findAll() {
-//        return service.findAll();
-//    }
+
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handle(Exception ex) {

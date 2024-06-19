@@ -9,5 +9,4 @@ public class SouthkoreaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SouthkoreaApplication.class, args);
 	}
-
 }

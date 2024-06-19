@@ -1,5 +1,6 @@
-package no.muhyun.southkorea;
+package no.muhyun.southkorea.service;
 
+import no.muhyun.southkorea.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

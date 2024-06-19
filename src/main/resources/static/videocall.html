@@ -14,93 +14,11 @@
 </head>
 <body>
 <div id="root"></div>
-<div id="chat-messages"></div>
 <input type="text" id="message-input" placeholder="Type your message...">
 <button onclick="sendMessage()">Send</button>
+<button onclick="startVoiceRecognition()">Start Voice Recognition</button>
+<script src="js/load.js" type="module"></script>
+<script src="https://unpkg.com/zego-zim-web@2.5.0/index.js"></script>
 <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
-<script>
-    window.onload = function () {
-        function getUrlParams(url) {
-            let urlStr = url.split('?')[1];
-            const urlSearchParams = new URLSearchParams(urlStr);
-            const result = Object.fromEntries(urlSearchParams.entries());
-            return result;
-        }
-
-        const roomID = getUrlParams(window.location.href)['roomID'] || (Math.floor(Math.random() * 10000) + "");
-        const userID = Math.floor(Math.random() * 10000) + "";
-        const userName = getUrlParams(window.location.href)['username'] || "username" + userID;
-        const appID = 891064744;
-        const serverSecret = "04726e53896d9b4560c7f5c33132e42b";
-        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
-
-        const zp = ZegoUIKitPrebuilt.create(kitToken);
-
-        zp.joinRoom({
-            container: document.querySelector("#root"),
-            sharedLinks: [{
-                name: 'RoomID',
-                url: roomID,
-            }],
-            scenario: {
-                mode: ZegoUIKitPrebuilt.VideoConference,
-            },
-            turnOnMicrophoneWhenJoining: true,
-            turnOnCameraWhenJoining: true,
-            showMyCameraToggleButton: true,
-            showMyMicrophoneToggleButton: true,
-            showAudioVideoSettingsButton: false,
-            showScreenSharingButton: false,
-            showTextChat: true,
-            showUserList: false,
-            maxUsers: 30,
-            layout: "Grid",
-            showLayoutButton: true,
-        });
-
-        const ws = new WebSocket('ws://localhost:8766');
-
-        ws.onopen = function() {
-            console.log("WebSocket connection established");
-        };
-
-        ws.onmessage = function(event) {
-            const message = event.data;
-            console.log("Received message:", message);
-            displayMessage(message); // Display received message in UI
-        };
-
-        ws.onclose = function() {
-            console.log("WebSocket connection closed");
-        };
-
-        ws.onerror = function(error) {
-            console.error("WebSocket error:", error);
-        };
-
-        window.onbeforeunload = function() {
-            ws.close();
-        };
-
-        // Function to send message via WebSocket
-        function sendMessage() {
-            const messageInput = document.getElementById('message-input');
-            const message = messageInput.value.trim();
-            if (message !== '') {
-                ws.send(message);
-                messageInput.value = '';
-                displayMessage(`You: ${message}`); // Display sent message in UI
-            }
-        }
-
-        // Function to display messages in the chat
-        function displayMessage(message) {
-            const chatMessages = document.getElementById('chat-messages');
-            const messageElement = document.createElement('div');
-            messageElement.textContent = message;
-            chatMessages.appendChild(messageElement);
-        }
-    };
-</script>
 </body>
 </html>
